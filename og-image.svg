@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="50%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8F0000"/>
+      <stop offset="100%" stop-color="#CC0000"/>
+    </linearGradient>
+    <linearGradient id="node" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#CC3333"/>
+      <stop offset="100%" stop-color="#8F0000"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <!-- Grid dots -->
+  <g fill="white" opacity="0.03">
+    <circle cx="50" cy="50" r="2"/><circle cx="150" cy="50" r="2"/><circle cx="250" cy="50" r="2"/><circle cx="350" cy="50" r="2"/>
+    <circle cx="450" cy="50" r="2"/><circle cx="550" cy="50" r="2"/><circle cx="650" cy="50" r="2"/><circle cx="750" cy="50" r="2"/>
+    <circle cx="850" cy="50" r="2"/><circle cx="950" cy="50" r="2"/><circle cx="1050" cy="50" r="2"/><circle cx="1150" cy="50" r="2"/>
+    <circle cx="50" cy="150" r="2"/><circle cx="150" cy="150" r="2"/><circle cx="350" cy="150" r="2"/><circle cx="550" cy="150" r="2"/>
+    <circle cx="750" cy="150" r="2"/><circle cx="950" cy="150" r="2"/><circle cx="1050" cy="150" r="2"/><circle cx="1150" cy="150" r="2"/>
+    <circle cx="50" cy="250" r="2"/><circle cx="250" cy="250" r="2"/><circle cx="450" cy="250" r="2"/><circle cx="650" cy="250" r="2"/>
+    <circle cx="850" cy="250" r="2"/><circle cx="1050" cy="250" r="2"/><circle cx="50" cy="350" r="2"/><circle cx="150" cy="350" r="2"/>
+    <circle cx="350" cy="350" r="2"/><circle cx="550" cy="350" r="2"/><circle cx="750" cy="350" r="2"/><circle cx="950" cy="350" r="2"/>
+    <circle cx="1150" cy="350" r="2"/><circle cx="50" cy="450" r="2"/><circle cx="250" cy="450" r="2"/><circle cx="450" cy="450" r="2"/>
+    <circle cx="650" cy="450" r="2"/><circle cx="850" cy="450" r="2"/><circle cx="1050" cy="450" r="2"/><circle cx="50" cy="550" r="2"/>
+    <circle cx="150" cy="550" r="2"/><circle cx="350" cy="550" r="2"/><circle cx="550" cy="550" r="2"/><circle cx="750" cy="550" r="2"/>
+    <circle cx="950" cy="550" r="2"/><circle cx="1150" cy="550" r="2"/>
+  </g>
+  <!-- Decorative flow lines -->
+  <g opacity="0.08">
+    <polyline points="50,400 150,350 200,370 300,300 350,320 450,250 500,270 600,200 650,220 750,150 800,170 900,100 950,120 1050,80 1100,100 1150,60"
+              fill="none" stroke="#CC0000" stroke-width="2"/>
+    <polyline points="50,420 150,380 200,400 300,330 350,350 450,280 500,300 600,240 650,260 750,190 800,210 900,140 950,160 1050,120 1100,140 1150,100"
+              fill="none" stroke="#CC6666" stroke-width="2"/>
+    <polyline points="50,440 150,410 200,430 300,360 350,380 450,310 500,330 600,270 650,290 750,220 800,240 900,170 950,190 1050,150 1100,170 1150,130"
+              fill="none" stroke="#4488BB" stroke-width="2"/>
+  </g>
+  <!-- Flow diagram -->
+  <g transform="translate(100, 200)" opacity="0.2">
+    <rect x="0" y="10" width="100" height="40" rx="6" fill="#8F0000"/>
+    <text x="50" y="35" font-family="Arial, sans-serif" font-size="11" fill="white" text-anchor="middle" font-weight="bold">HTTP In</text>
+    <line x1="100" y1="30" x2="130" y2="30" stroke="#CC0000" stroke-width="2"/>
+    <polygon points="130,26 140,30 130,34" fill="#CC0000"/>
+    <rect x="140" y="10" width="100" height="40" rx="6" fill="#CC6666"/>
+    <text x="190" y="35" font-family="Arial, sans-serif" font-size="11" fill="white" text-anchor="middle" font-weight="bold">Function</text>
+    <line x1="240" y1="30" x2="270" y2="30" stroke="#CC6666" stroke-width="2"/>
+    <polygon points="270,26 280,30 270,34" fill="#CC6666"/>
+    <rect x="280" y="10" width="100" height="40" rx="6" fill="#4488BB"/>
+    <text x="330" y="35" font-family="Arial, sans-serif" font-size="11" fill="white" text-anchor="middle" font-weight="bold">MQTT Out</text>
+  </g>
+  <!-- Main content -->
+  <g transform="translate(600, 315)">
+    <!-- Logo badge -->
+    <rect x="-75" y="-130" width="150" height="150" rx="30" fill="url(#accent)"/>
+    <!-- Flow node icon inside logo -->
+    <rect x="-45" y="-100" width="30" height="20" rx="4" fill="white" opacity="0.9"/>
+    <rect x="-10" y="-100" width="30" height="20" rx="4" fill="white" opacity="0.8"/>
+    <rect x="25" y="-100" width="30" height="20" rx="4" fill="white" opacity="0.6"/>
+    <line x1="-15" y1="-92" x2="-10" y2="-92" stroke="white" stroke-width="2" opacity="0.9"/>
+    <line x1="20" y1="-92" x2="25" y2="-92" stroke="white" stroke-width="2" opacity="0.8"/>
+    <!-- Bottom row -->
+    <rect x="-25" y="-70" width="30" height="20" rx="4" fill="white" opacity="0.7"/>
+    <rect x="10" y="-70" width="30" height="20" rx="4" fill="white" opacity="0.5"/>
+    <line x1="5" y1="-62" x2="10" y2="-62" stroke="white" stroke-width="2" opacity="0.7"/>
+    <!-- Wire connections -->
+    <line x1="-10" y1="-80" x2="-10" y2="-70" stroke="white" stroke-width="1.5" opacity="0.5"/>
+    <line x1="25" y1="-80" x2="25" y2="-70" stroke="white" stroke-width="1.5" opacity="0.5"/>
+    <!-- Title -->
+    <text x="0" y="60" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="800" fill="white" text-anchor="middle" letter-spacing="4">NODE-RED</text>
+    <text x="0" y="100" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="rgba(255,255,255,0.7)" text-anchor="middle" letter-spacing="4">LOW-CODE PROGRAMMING</text>
+  </g>
+  <!-- Deploy on Railway badge -->
+  <g transform="translate(600, 560)">
+    <rect x="-120" y="-24" width="240" height="48" rx="24" fill="#0B1120" stroke="#1E293B" stroke-width="2"/>
+    <text x="0" y="8" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="white" text-anchor="middle">Deploy on Railway</text>
+  </g>
+  <!-- Tags -->
+  <g transform="translate(600, 610)">
+    <rect x="-200" y="-14" width="90" height="28" rx="14" fill="rgba(143,0,0,0.3)"/>
+    <text x="-155" y="6" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#FCA5A5" text-anchor="middle">Automation</text>
+    <rect x="-100" y="-14" width="70" height="28" rx="14" fill="rgba(68,136,187,0.3)"/>
+    <text x="-65" y="6" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#93C5FD" text-anchor="middle">IoT</text>
+    <rect x="-20" y="-14" width="90" height="28" rx="14" fill="rgba(68,170,68,0.3)"/>
+    <text x="25" y="6" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#86EFAC" text-anchor="middle">Integration</text>
+    <rect x="80" y="-14" width="130" height="28" rx="14" fill="rgba(204,0,0,0.3)"/>
+    <text x="145" y="6" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#FCA5A5" text-anchor="middle">One-Click Deploy</text>
+  </g>
+</svg>
