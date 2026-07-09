@@ -15,6 +15,13 @@ ENV FLOWS=flows.json \
     NODE_RED_ENABLE_PROJECTS=false \
     NODE_RED_ENABLE_SAFE_MODE=false
 
+# Railway volumes mount at /data owned by root:root, but the base image's
+# entrypoint runs as the `node-red` user and tries to write settings.js into
+# /data, hitting EACCES. Fix: switch to root briefly, chown the volume, then
+# exec the original entrypoint as `node-red` via `su -p` (preserves $PORT).
+USER root
+ENTRYPOINT ["/bin/sh", "-c", "chown -R node-red:node-red /data && exec su node-red -p -c './entrypoint.sh \"$@\"' --"]
+
 # Base image ships /healthcheck.js — performs a local HTTP probe against
 # the UI port. start-period covers Node-RED's initial package install
 # (npm install on first boot can take 60-90s for a fresh volume).
