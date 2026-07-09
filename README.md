@@ -1,8 +1,8 @@
 # Deploy and Host node-red on Railway
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.com/new/template/spyQkl)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.com/new/template/node-red-2)
 
-> **Canonical code:** `spyQkl` — deploy URL: https://railway.com/new/template/spyQkl
+> **Canonical code:** `node-red-2` — deploy URL: https://railway.com/new/template/node-red-2
 
 ![OG Image](https://raw.githubusercontent.com/INAPP-Mobile/railway-node-red/main/og-image.svg)
 
