@@ -1,212 +1,91 @@
-# Node-RED — Low-Code Programming for Event-Driven Applications
+# Deploy and Host node-red on Railway
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/railway-node-red)
-[![Node-RED](https://img.shields.io/badge/Node--RED-v5.0.0-8F0000?logo=nodered)](https://nodered.org)
-[![License](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-[![GitHub Stars](https://img.shields.io/github/stars/node-red/node-red?style=social)](https://github.com/node-red/node-red)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.com/new/template/node-red-2)
 
-<p align="center">
-  <img src="./og-image.svg" alt="Node-RED on Railway" width="600">
-</p>
+> **Canonical code:** `node-red-2` — deploy URL: https://railway.com/new/template/node-red-2
 
-Deploy **Node-RED** on Railway with one click — a flow-based, low-code development tool for wiring together hardware devices, APIs, and online services. Drag and drop nodes to create automations, data pipelines, and integrations without writing boilerplate code.
+![OG Image](https://raw.githubusercontent.com/INAPP-Mobile/railway-node-red/main/og-image.svg)
+
+Node-RED is a low-code, flow-based programming tool for wiring together hardware devices, APIs, and online services. Deploy it on Railway in minutes to start building automations visually.
+
+## About Hosting node-red
+
+Node-RED runs as a single container with a persistent Railway volume mounted at `/data` for flows, settings, and credentials. Railway provides the compute, TLS at the edge, and a public URL. The service restarts automatically on failures. No external database is required for basic usage — everything runs in one container. The base image's settings.js honors `PORT` (Railway injects this), so the flow editor is reachable on Railway's standard edge port without further configuration.
+
+## Common Use Cases
+
+- **IoT automation** — Connect sensors, actuators, and devices with MQTT, Modbus, OPC-UA, and GPIO.
+- **API orchestration** — Chain HTTP requests, transform data, and integrate multiple services in a single flow.
+- **Smart home** — Automate lights, thermostats, and devices with Home Assistant, Philips Hue, and Zigbee.
+- **Data pipelines** — Ingest, transform, and route data between databases, message queues, and cloud services.
+- **Chatbots & alerts** — Build Telegram/Slack bots, send email alerts, and trigger notifications from any event.
+
+## Dependencies for node-red Hosting
+
+- **Persistent volume** — A Railway volume mounted at `/data` is required to retain flows, credentials, and settings across redeploys.
+- **No external database** — Node-RED runs standalone; Postgres/MySQL/Redis are not required for basic flows.
+
+### Deployment Dependencies
+
+- [Node-RED documentation](https://nodered.org/docs/) — upstream reference for flows, settings, and node management.
+- [Node-RED Docker image](https://hub.docker.com/r/nodered/node-red) — base image used by this template (v5.0.0, Debian-based).
+- [Node-RED GitHub](https://github.com/node-red/node-red) — source code, issue tracker, and community nodes.
+
+### Implementation Details
+
+- **Healthcheck** — `node /healthcheck.js` is shipped by the base image and probes the local UI port; configured in the Dockerfile's `HEALTHCHECK` directive.
+- **Persistent storage** — The `/data` volume is mounted via `railway.json` / `railway.toml` under `deploy.volumeMounts`.
+- **Port** — Railway auto-injects `PORT`; the base image's `settings.js` reads it and binds the UI accordingly. Default fallback is `1880`.
+
+## Why Deploy node-red on Railway?
+
+Railway is a singular platform to deploy your infrastructure stack. Railway will host your infrastructure so you don't have to deal with configuration, while allowing you to vertically and horizontally scale it.
+
+By deploying node-red on Railway, you are one step closer to supporting a complete full-stack application with minimal burden. Host your servers, databases, AI agents, and more on Railway.
 
 ---
 
 ## Features
 
-- **Flow-based programming** — wire together inputs and outputs visually in the browser
-- **50,000+ community nodes** — extend with MQTT, HTTP, WebSocket, database, cloud API, and hardware nodes
-- **Built-in editor** — drag-and-drop flow builder with live deployment
-- **Library of flows** — import/export reusable flow templates
-- **Dashboard UI** — optional node-red-dashboard for web-based user interfaces
-- **REST API** — full admin HTTP API for remote management
-- **Lightweight & embeddable** — runs on as little as 128MB RAM
-- **Persistent flows** — Railway volume mounts retain your flows across redeploys
+- **Flow-based editor** — Drag, drop, and wire nodes in the browser
+- **5,000+ community nodes** — MQTT, HTTP, database connectors, AI, dashboards, and more
+- **One-click deploy** — Pre-configured with Railway volume for persistent flows
+- **Built-in healthcheck** — Monitored by Railway for automatic restarts
+- **Pinned version** — Node-RED v5.0.0, reproducible builds
 
----
+## Quick Start
+
+Click Deploy above, then open your Railway URL to access the flow editor. All flows are saved to the persistent volume at `/data`.
 
 ## Environment Variables
 
-| Variable | Default | Description |
-|---|---|---|
-| `FLOWS` | `flows.json` | Flow file to load from /data |
-| `CREDENTIAL_SECRET` | *(auto-generated)* | Key for encrypting flow credentials |
-| `NODE_RED_ENABLE_PROJECTS` | `false` | Enable projects feature |
-| `NODE_RED_ENABLE_SAFE_MODE` | `false` | Start without running flows (troubleshooting) |
-| `NODE_OPTIONS` | *(empty)* | Additional Node.js runtime options |
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PORT` | No | `1880` | Container port (Railway auto-sets) |
+| `FLOWS` | No | `flows.json` | Flow file to load from `/data` |
+| `CREDENTIAL_SECRET` | No | — | Encryption key for stored credentials |
+| `NODE_RED_ENABLE_PROJECTS` | No | `false` | Enable Git-backed projects |
+| `NODE_RED_ENABLE_SAFE_MODE` | No | `false` | Start without running flows |
 
----
-
-## Architecture
-
-```
-┌────────────────────────────────────────────────────────┐
-│                    Railway Container                      │
-│                                                           │
-│  ┌─────────────────────────────────────────────────┐     │
-│  │              Node-RED v5.0.0                     │     │
-│  │                                                   │     │
-│  │  ┌─────────┐ ┌──────────┐ ┌──────────────────┐  │     │
-│  │  │   Flow   │ │  Admin   │ │    Dashboard     │  │     │
-│  │  │  Engine  │ │   API    │ │  (node-red-dash) │  │     │
-│  │  └────┬────┘ └────┬─────┘ └────────┬─────────┘  │     │
-│  │       │            │                │             │     │
-│  │  ┌────▼────────────▼────────────────▼─────────┐   │     │
-│  │  │          HTTP Server (Port 1880)             │   │     │
-│  │  │   ┌──────────────────────────────────┐      │   │     │
-│  │  │   │  /  (Flow Editor + Admin API)     │      │   │     │
-│  │  │   └──────────────────────────────────┘      │   │     │
-│  │  └────────────────────────────────────────────┘   │     │
-│  │                                                   │     │
-│  │  ┌──────────────────────────────────────────┐     │     │
-│  │  │       Persistent Volume (/data)           │     │     │
-│  │  │  ┌──────────┐ ┌─────────┐ ┌─────────┐   │     │     │
-│  │  │  │flows.json│ │settings │ │  .npm   │   │     │     │
-│  │  │  │          │ │ .js     │ │  cache  │   │     │     │
-│  │  │  └──────────┘ └─────────┘ └─────────┘   │     │     │
-│  │  └──────────────────────────────────────────┘     │     │
-│  └─────────────────────────────────────────────────┘     │
-│                                                           │
-└─────────────────────────────────────────────────────────┘
-```
-
-Node-RED runs as a single container with a persistent volume at `/data` for flows, settings, credentials, and npm cache. The health check at the root path (`/`) ensures Railway can monitor service availability.
-
----
-
-## Deploy and Host
-
-### About Hosting
-
-Node-RED runs as a single Docker container with a persistent volume at `/data` for all runtime state — flows, settings, credentials, and npm cache. It requires no external database, no message queue, and no sidecar services. The built-in admin API and flow editor are served directly from the container, making it a true zero-dependency deployment.
-
-Railway provides automatic HTTPS, global CDN, health monitoring, and persistent volumes. The health check at `/` (root path) ensures Railway can monitor service availability.
-
-- **Default Port:** 1880
-- **Health Check:** `GET /` — admin API root returns HTTP 200 when ready
-- **Startup Time:** ~5-10 seconds (Node.js process startup)
-- **Resource Usage:** ~50-80MB RAM idle, scales as flows execute
-- **Data Directory:** `/data` (persistent volume for flows, settings, credentials)
-
-### Health Endpoint
-
-Railway uses the following endpoint for health checks:
-- **URL:** `/`
-- **Timeout:** 30 seconds
-- **Start period:** 30 seconds (allows Node-RED to initialize)
-
----
-
-## Why Deploy Node-RED on Railway?
-
-| Feature | Benefit |
-|---------|---------|
-| **Zero configuration** | Just deploy — the flow editor is immediately available in your browser |
-| **50,000+ community nodes** | Extend with any integration imaginable via npm |
-| **Visual development** | No coding required for common automation patterns |
-| **Persistent flows** | Railway volumes keep your flows safe across redeploys |
-| **One-click deploy** | Deploy from GitHub or Railway button in under a minute |
-| **Auto HTTPS** | Railway provides TLS termination automatically |
-| **Lightweight** | ~50MB idle RAM — fits comfortably on free tier |
-
-With Railway, you get automatic HTTPS, global CDN, health monitoring, and scalable infrastructure — without managing servers.
-
----
-
-## Common Use Cases
-
-- **Home automation** — Wire together MQTT, HTTP, and Zigbee nodes for smart home control
-- **IoT data pipelines** — Collect sensor data from edge devices, transform it, and send to databases or cloud APIs
-- **API integration** — Bridge between REST, WebSocket, GraphQL, and SOAP services without glue code
-- **Webhook automation** — Receive webhooks from GitHub, Stripe, Slack, etc., and trigger workflows
-- **Data transformation** — Parse, filter, and route data between systems with drag-and-drop logic
-- **Prototyping** — Rapidly prototype integrations and automations before building production code
-- **Alerting & notifications** — Route system alerts through email, Slack, Telegram, or SMS nodes
-
----
-
-## Dependencies for Node-RED
-
-### Deployment Dependencies
-
-- **Runtime:** Node-RED v5.0.0 (bundled in the container image on Node.js 24)
-- **Storage:** Persistent volume at `/data` for flows, settings, credentials, and npm cache
-- **External access:** Port 1880 for the flow editor and admin API
-- **Optional:** Credential secret key for encrypting flow credentials
-- **Optional:** node-red-dashboard node for web-based UI dashboards
-
----
-
-<p float="left">
-  <img src="./template-icon.svg" alt="Node-RED Icon" width="200">
-  <img src="./og-image.svg" alt="Node-RED Preview" width="400">
-</p>
-
----
-
-## Getting Started
-
-### Deploy on Railway
-
-1. Click the **Deploy on Railway** button above
-2. Configure any environment variables (optional)
-3. Click deploy
-4. Access the Node-RED flow editor at `https://<your-railway-url>:1880`
-
-### Local Development
+## Local Development
 
 ```bash
-# Build the Docker image
+git clone https://github.com/INAPP-Mobile/railway-node-red && cd railway-node-red
+cp .env.example .env && $EDITOR .env
 docker build -t railway-node-red .
-
-# Run the container
-docker run -d \
-  --name node-red \
-  -p 1880:1880 \
-  -v node-red-data:/data \
-  railway-node-red
-
-# Verify it's running
-curl http://localhost:1880/
+docker run -d -p 1880:1880 -v node-red-data:/data --env-file .env railway-node-red
 ```
 
----
+Open http://localhost:1880 in your browser.
 
 ## Troubleshooting
 
-**Flows not persisting across redeploys?**
-Ensure the Railway volume is mounted at `/data`. The volume stores `flows.json`, `flows_cred.json`, and `settings.js`.
-
-**Health check failing?**
-The startup period is 30 seconds. Node-RED needs time to initialize Node.js and load flows. If it persists, check logs: `railway logs`.
-
-**Port already in use?**
-The container exposes port 1880. If you need a different internal port, modify the `EXPOSE` line in the Dockerfile.
-
-**Credential errors after redeploy?**
-If you didn't set `CREDENTIAL_SECRET`, Node-RED generates a system key on first start. This key is lost on redeploy if the `/data` volume is not persisted. Set `CREDENTIAL_SECRET` to a fixed value to make credentials portable across deployments.
-
-**Can't install community nodes?**
-Due to Railway's ephemeral filesystem, custom nodes installed via the palette manager may not persist across restarts. To add custom nodes permanently, either:
-1. Build a custom Dockerfile that installs them with `npm install node-red-contrib-<name>`
-2. Pre-install them in the `/data` volume directory
-
----
-
-## Updating Node-RED
-
-This template uses `nodered/node-red:latest`. To pin to a specific version:
-
-1. Change the `FROM` line in `Dockerfile` to `nodered/node-red:5.0.0` (or the desired tag)
-2. Rebuild and redeploy
-
-Check [Node-RED Releases](https://github.com/node-red/node-red/releases) and [Docker Tags](https://hub.docker.com/r/nodered/node-red/tags) for the latest version.
-
----
+| Issue | Solution |
+|-------|----------|
+| Flows lost after redeploy | Confirm `/data` volume is mounted in Railway |
+| Port conflict | Override `PORT` env var — Railway auto-routes |
+| Credentials broken | `CREDENTIAL_SECRET` was changed; re-enter credentials |
 
 ## License
 
-Node-RED is [Apache-2.0 licensed](https://github.com/node-red/node-red/blob/master/LICENSE).
-
-This Railway template is provided by [INAPP-Mobile](https://github.com/INAPP-Mobile). Not affiliated with or endorsed by the Node-RED project.
+Node-RED is Apache-2.0 licensed. Template by [INAPP-Mobile](https://github.com/INAPP-Mobile).

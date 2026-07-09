@@ -1,0 +1,22 @@
+{
+  "PORT": {
+    "value": "1880",
+    "description": "Port Node-RED listens on for the flow editor and HTTP API endpoints."
+  },
+  "FLOWS": {
+    "value": "flows.json",
+    "description": "Flow file to load from the /data volume. Defaults to flows.json."
+  },
+  "NODE_RED_ENABLE_PROJECTS": {
+    "value": "false",
+    "description": "Set to true to enable Git-backed projects for version-controlled flows."
+  },
+  "NODE_RED_ENABLE_SAFE_MODE": {
+    "value": "false",
+    "description": "Set to true to start Node-RED without running any flows (safe mode for troubleshooting)."
+  },
+  "CREDENTIAL_SECRET": {
+    "value": "${{secret(32)}}",
+    "description": "Encryption key for stored credentials. Auto-generated — keep this value stable to avoid re-entering credentials on redeploy."
+  }
+}
