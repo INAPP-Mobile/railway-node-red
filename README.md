@@ -28,7 +28,7 @@ Node-RED runs as a single container with a persistent Railway volume mounted at 
 ### Deployment Dependencies
 
 - [Node-RED documentation](https://nodered.org/docs/) — upstream reference for flows, settings, and node management.
-- [Node-RED Docker image](https://hub.docker.com/r/nodered/node-red) — base image used by this template (v5.0.0, Debian-based).
+- [Node-RED Docker image](https://hub.docker.com/r/nodered/node-red) — base image used by this template (v5.0.1, Debian-based).
 - [Node-RED GitHub](https://github.com/node-red/node-red) — source code, issue tracker, and community nodes.
 
 ### Implementation Details
@@ -51,7 +51,7 @@ By deploying node-red on Railway, you are one step closer to supporting a comple
 - **5,000+ community nodes** — MQTT, HTTP, database connectors, AI, dashboards, and more
 - **One-click deploy** — Pre-configured with Railway volume for persistent flows
 - **Built-in healthcheck** — Monitored by Railway for automatic restarts
-- **Pinned version** — Node-RED v5.0.0, reproducible builds
+- **Pinned version** — Node-RED v5.0.1, reproducible builds
 
 ## Quick Start
 

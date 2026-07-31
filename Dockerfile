@@ -5,11 +5,11 @@
 # License: Apache-2.0
 # =============================================================================
 
-# Use the official Node-RED image (v5.0.0, Debian-based)
+# Use the official Node-RED image (v5.0.1, Debian-based)
 # The base image runs as user 'node-red' (UID 1000).
 # The base image's settings.js honors process.env.PORT for the UI port,
 # so Railway's auto-injected PORT is respected without an explicit ENV here.
-FROM docker.io/nodered/node-red:5.0.0
+FROM docker.io/nodered/node-red:5.0.1
 
 ENV FLOWS=flows.json \
     NODE_RED_ENABLE_PROJECTS=false \
