@@ -9,7 +9,7 @@
 # The base image runs as user 'node-red' (UID 1000).
 # The base image's settings.js honors process.env.PORT for the UI port,
 # so Railway's auto-injected PORT is respected without an explicit ENV here.
-FROM docker.io/nodered/node-red:5.0.4
+FROM docker.io/nodered/node-red:5.0.6-24
 
 ENV FLOWS=flows.json \
     NODE_RED_ENABLE_PROJECTS=false \
